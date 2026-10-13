@@ -2,15 +2,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --azul:      #2563eb;
-  --azul-ok:   #16a34a;
-  --rojo:      #dc2626;
-  --naranja:   #d97706;
+  --azul:      #301f6b;
+  --azul-ok:   #40b46a;
+  --rojo:      #dc4949;
+  --naranja:   #e4953b;
   --fondo:     #f1f5f9;
   --blanco:    #ffffff;
   --gris1:     #e2e8f0;
   --gris2:     #94a3b8;
-  --texto:     #1e293b;
+  --texto:     #1e1130;
   --radio:     8px;
   --sombra:    0 2px 8px rgba(0,0,0,.10);
 

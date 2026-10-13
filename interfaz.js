@@ -188,11 +188,12 @@ class Interfaz {
     // La función es: Y = X1 AND (X2 OR X3 OR X4)
     // En bipolar: positivo = verdadero, negativo = falso
     // Solo aplica si ninguna entrada es exactamente 0
-    const hayAlgunCero = valores.some(v => v === 0);
     let notaCasoBorde = '';
 
-    if (!hayAlgunCero) {
-      const s = valores.map(v => v > 0 ? 1 : -1); // signos como ±1
+    {
+      // El signo sigue la misma regla que la función a trozos:
+      // >= 0 → positivo (1),  < 0 → negativo (-1)
+      const s = valores.map(v => v >= 0 ? 1 : -1);
       // Buscar en la tabla la fila con esos signos
       const filaEsperada = TABLA_VERDAD.find(
         f => f[0] === s[0] && f[1] === s[1] && f[2] === s[2] && f[3] === s[3]
@@ -202,7 +203,7 @@ class Interfaz {
         const concuerda = Y === dEsperado;
         if (!concuerda) {
           notaCasoBorde = `<p class="nota-caso-borde">
-            ℹ️ Por el signo de las entradas la tabla de verdad
+            Por el signo de las entradas la tabla de verdad
             esperaría <strong>Y = ${dEsperado}</strong>, pero el perceptrón obtuvo
             <strong>Y = ${Y}</strong>. El bias aprendido
             (<strong>b = ${fmt(neurona.b)}</strong>) domina la sumatoria con estas
