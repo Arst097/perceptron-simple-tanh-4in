@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perceptrón Simple — Y = X1 AND (X2 OR X3 OR X4)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CABECERA                                                   -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<header>
+  <h1>Perceptrón Simple con activación <em>tanh</em></h1>
+  <p>Y = X1 AND (X2 OR X3 OR X4) &nbsp;·&nbsp; Entradas bipolares (−1 / 1)</p>
+  <p class="autores">Kevin Felipe Zambrano Guaca &nbsp;·&nbsp; Sara Milena Arévalo Cristancho &nbsp;·&nbsp; Samuel Ortiz Ospina</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- LAYOUT: izquierda · centro · derecha                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- ── COL IZQUIERDA: tabla de verdad ──────────────────── -->
+  <div class="col-izq">
+    <div class="tarjeta">
+      <h2>Tabla de verdad</h2>
+      <table class="tabla-verdad">
+        <thead>
+          <tr><th>X1</th><th>X2</th><th>X3</th><th>X4</th><th>Y</th></tr>
+        </thead>
+        <tbody id="cuerpo-tabla"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── COL CENTRO: entrenamiento · resultado · prueba ───── -->
+  <div class="col-centro">
+
+    <!-- Panel de entrenamiento (colapsable) -->
+    <div class="tarjeta" id="tarjeta-entrenamiento">
+      <div class="cabecera-colapsable" id="btn-colapsar-pasos">
+        <h2>Paso a paso del entrenamiento</h2>
+        <span class="icono-colapso" id="icono-colapso">▲</span>
+      </div>
+      <!-- Cuerpo colapsable -->
+      <div id="cuerpo-entrenamiento">
+        <div id="panel-pasos">
+          <p class="hint">Haz clic en <strong>Generar aleatorios</strong> para comenzar.</p>
+        </div>
+      </div>
+      <!-- Banner de estado que se ve al colapsar -->
+      <div id="banner-estado-entrenamiento" class="oculto"></div>
+    </div>
+
+    <!-- Panel de resultado final (aparece al converger) -->
+    <div id="panel-resultado" class="tarjeta oculto">
+      <!-- Generado por Interfaz._finalizarEntrenamiento() -->
+    </div>
+
+    <!-- Panel de prueba (se habilita al converger) -->
+    <div id="panel-prueba" class="tarjeta oculto">
+      <h2>Probar entradas</h2>
+      <p class="hint-prueba">
+        Ingresa valores cualesquiera (acepta decimales, coma o punto, notación científica).
+        Si todas las entradas son ±1 se muestra también la Y esperada de la tabla.
+      </p>
+      <div class="grupo-entradas">
+        <div class="campo-entrada"><label for="inp-x1">X1</label><input type="text" id="inp-x1" placeholder="ej. 1" /></div>
+        <div class="campo-entrada"><label for="inp-x2">X2</label><input type="text" id="inp-x2" placeholder="ej. -1" /></div>
+        <div class="campo-entrada"><label for="inp-x3">X3</label><input type="text" id="inp-x3" placeholder="ej. 0.5" /></div>
+        <div class="campo-entrada"><label for="inp-x4">X4</label><input type="text" id="inp-x4" placeholder="ej. 3e-2" /></div>
+      </div>
+      <div class="grupo-botones-prueba">
+        <button id="btn-probar"          class="btn-primario"    disabled>Probar</button>
+        <button id="btn-limpiar-prueba"  class="btn-secundario">Probar nuevamente</button>
+      </div>
+      <div id="resultado-prueba"></div>
+    </div>
+
+  </div><!-- /col-centro -->
+
+  <!-- ── COL DERECHA: estado + controles ──────────────────── -->
+  <div class="col-der">
+
+    <!-- Controles -->
+    <div class="tarjeta">
+      <h2>Controles</h2>
+      <div class="grupo-botones">
+        <button id="btn-generar"    class="btn-primario">Generar aleatorios</button>
+        <button id="btn-entrenar"   class="btn-ok"        disabled>Entrenar</button>
+        <button id="btn-pausar"     class="btn-secundario" disabled>Pausar</button>
+        <button id="btn-paso"       class="btn-naranja"   disabled>Avanzar un paso</button>
+        <button id="btn-reentrenar" class="btn-peligro"   disabled>Reentrenar</button>
+      </div>
+    </div>
+
+    <!-- Panel de valores aleatorios iniciales -->
+    <div id="panel-aleatorios" class="tarjeta oculto">
+      <!-- Generado por Interfaz._mostrarAleatorios() -->
+    </div>
+
+  </div><!-- /col-der -->
+
+</main>
+
+<script src="neurona.js"></script>
+<script src="entrenador.js"></script>
+<script src="interfaz.js"></script>
+</body>
+</html>

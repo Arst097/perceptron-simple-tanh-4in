@@ -1,0 +1,429 @@
+/* ── Reset y base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --azul:      #2563eb;
+  --azul-ok:   #16a34a;
+  --rojo:      #dc2626;
+  --naranja:   #d97706;
+  --fondo:     #f1f5f9;
+  --blanco:    #ffffff;
+  --gris1:     #e2e8f0;
+  --gris2:     #94a3b8;
+  --texto:     #1e293b;
+  --radio:     8px;
+  --sombra:    0 2px 8px rgba(0,0,0,.10);
+
+  /* anchos de las columnas laterales */
+  --ancho-izq: 195px;
+  --ancho-der: 220px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  color: var(--texto);
+  background: var(--fondo);
+  min-height: 100vh;
+}
+
+/* ── Cabecera ─────────────────────────────────────────────────── */
+header {
+  background: var(--azul);
+  color: #fff;
+  padding: 1.1rem 2rem;
+  text-align: center;
+}
+header h1 { font-size: 1.4rem; font-weight: 700; }
+header p  { font-size: .88rem; opacity: .85; margin-top: .2rem; }
+header .autores { font-size: .8rem; opacity: .7; margin-top: .3rem; letter-spacing: .3px; }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT PRINCIPAL — 3 columnas
+   izq(fija) · centro(flexible) · der(fija)
+   ══════════════════════════════════════════════════════════════ */
+main {
+  display: grid;
+  grid-template-columns: var(--ancho-izq) 1fr var(--ancho-der);
+  grid-template-areas: "izq centro der";
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1500px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Columnas laterales: sticky para que acompañen el scroll */
+.col-izq {
+  grid-area: izq;
+  position: sticky;
+  top: 1rem;
+}
+
+.col-der {
+  grid-area: der;
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Centro: fluye normalmente, ocupa todo el ancho disponible */
+.col-centro {
+  grid-area: centro;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* ── Tarjetas ─────────────────────────────────────────────────── */
+.tarjeta {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1rem 1.1rem;
+}
+
+.tarjeta h2 {
+  font-size: .98rem;
+  font-weight: 600;
+  color: var(--azul);
+  margin-bottom: .65rem;
+  border-bottom: 2px solid var(--gris1);
+  padding-bottom: .35rem;
+}
+.tarjeta h3 {
+  font-size: .92rem;
+  font-weight: 600;
+  margin-bottom: .45rem;
+}
+
+/* ── Tabla de verdad ─────────────────────────────────────────── */
+.tabla-verdad {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .86rem;
+}
+.tabla-verdad th, .tabla-verdad td {
+  border: 1px solid var(--gris1);
+  text-align: center;
+  padding: 3px 5px;
+}
+.tabla-verdad th { background: var(--azul); color: #fff; font-weight: 600; }
+.tabla-verdad tbody tr { transition: background .12s; }
+.tabla-verdad tbody tr:nth-child(even) { background: #f8fafc; }
+
+tr.fila-actual { background: #fef9c3 !important; font-weight: 600; }
+tr.fila-ok     { background: #dcfce7 !important; }
+tr.fila-error  { background: #fee2e2 !important; font-weight: 600; }
+
+/* ── Botones ──────────────────────────────────────────────────── */
+.grupo-botones {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: .5rem .9rem;
+  font-size: .88rem;
+  font-weight: 600;
+  transition: opacity .15s, transform .1s;
+  width: 100%;
+}
+button:active  { transform: scale(.97); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn-primario   { background: var(--azul);    color: #fff; }
+.btn-secundario { background: var(--gris1);   color: var(--texto); }
+.btn-ok         { background: var(--azul-ok); color: #fff; }
+.btn-peligro    { background: var(--rojo);    color: #fff; }
+.btn-naranja    { background: var(--naranja); color: #fff; }
+
+/* ── Panel de valores aleatorios (col derecha) ───────────────── */
+#panel-aleatorios { font-size: .85rem; }
+#panel-aleatorios h3 { font-size: .88rem; margin-bottom: .4rem; }
+
+/* ── Cabecera colapsable del panel de entrenamiento ─────────── */
+.cabecera-colapsable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  /* reutiliza el estilo del h2 de tarjeta */
+  border-bottom: 2px solid var(--gris1);
+  padding-bottom: .35rem;
+  margin-bottom: .65rem;
+}
+.cabecera-colapsable h2 {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.icono-colapso {
+  font-size: .8rem;
+  color: var(--azul);
+  transition: transform .2s;
+}
+/* cuando está colapsado */
+.colapsado .icono-colapso { transform: rotate(180deg); }
+
+/* cuerpo que se oculta/muestra */
+#cuerpo-entrenamiento {
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+#cuerpo-entrenamiento.colapsado { display: none; }
+
+/* Banner que aparece cuando el cuerpo está colapsado */
+#banner-estado-entrenamiento {
+  margin-top: .4rem;
+  border-radius: 6px;
+  padding: .45rem .8rem;
+  font-weight: 700;
+  font-size: .9rem;
+}
+#banner-estado-entrenamiento.convergio { background: #dcfce7; color: #15803d; }
+#banner-estado-entrenamiento.sin-conv  { background: #fee2e2; color: #b91c1c; }
+#banner-estado-entrenamiento.en-curso  { background: #e0f2fe; color: #0369a1; }
+
+/* ── Panel de pasos (scroll interno) ────────────────────────── */
+#panel-pasos {
+  max-height: calc(100vh - 12rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  padding-right: .25rem;
+}
+#panel-pasos::-webkit-scrollbar { width: 5px; }
+#panel-pasos::-webkit-scrollbar-thumb { background: var(--gris2); border-radius: 3px; }
+
+.bloque-iteracion {
+  border: 1px solid var(--gris1);
+  border-radius: var(--radio);
+  padding: .75rem;
+  background: #fafbfc;
+}
+.titulo-iteracion {
+  font-size: .93rem;
+  color: var(--azul);
+  margin-bottom: .55rem;
+  font-weight: 700;
+}
+.bloque-paso { margin-bottom: .65rem; }
+.bloque-paso h4 {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: .3rem;
+  border-left: 3px solid var(--azul);
+  padding-left: .4rem;
+}
+.bloque-paso.correccion { background: #fff7ed; border-radius: 6px; padding: .55rem; }
+.bloque-paso.ok-paso    { background: #f0fdf4; border-radius: 6px; padding: .45rem;
+                           color: var(--azul-ok); font-weight: 600; font-size: .88rem; }
+
+/* ── Ecuaciones ──────────────────────────────────────────────── */
+.ecuacion {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .83rem;
+  background: #f1f5f9;
+  border-radius: 4px;
+  padding: .22rem .45rem;
+  margin: .18rem 0;
+  word-break: break-all;
+}
+.ecuacion.resultado { background: #e0f2fe; }
+
+/* ── Tablas dentro de los pasos ──────────────────────────────── */
+.tabla-paso {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+  margin-top: .2rem;
+}
+.tabla-paso th, .tabla-paso td {
+  border: 1px solid var(--gris1);
+  padding: 3px 7px;
+  text-align: center;
+}
+.tabla-paso th { background: #e8eef7; font-weight: 600; }
+
+/* ══════════════════════════════════════════════════════════════
+   PANEL DE RESULTADO FINAL
+   Las dos tablas de pesos van side-by-side
+   ══════════════════════════════════════════════════════════════ */
+#panel-resultado h3.convergio { color: var(--azul-ok); margin-bottom: .4rem; }
+#panel-resultado h3.sin-conv  { color: var(--rojo);    margin-bottom: .4rem; }
+
+.resultado-encabezado {
+  margin-bottom: .6rem;
+}
+.resultado-meta {
+  font-size: .88rem;
+  margin-top: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem 1.5rem;
+}
+.resultado-meta p { margin: 0; }
+
+/* Contenedor horizontal de las dos tablas de pesos */
+.tablas-pesos {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;    /* en pantallas muy estrechas se apilan */
+  margin-bottom: .6rem;
+}
+.tablas-pesos .bloque-tabla {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+.bloque-tabla h4 {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: .3rem;
+  border-left: 3px solid var(--azul);
+  padding-left: .4rem;
+}
+
+/* ── Banners en los pasos ────────────────────────────────────── */
+.banner {
+  border-radius: 6px;
+  padding: .45rem .75rem;
+  font-weight: 700;
+  margin-bottom: .55rem;
+  font-size: .88rem;
+}
+.banner.convergio { background: #dcfce7; color: #15803d; }
+.banner.sin-conv  { background: #fee2e2; color: #b91c1c; }
+
+.nota { font-size: .84rem; color: #475569; margin-bottom: .4rem; }
+
+/* ── Aviso nueva iteración ───────────────────────────────────── */
+.aviso-nueva-iteracion {
+  color: var(--naranja);
+  font-weight: 600;
+  font-size: .84rem;
+  margin-top: .45rem;
+}
+
+/* ── Colores semánticos ──────────────────────────────────────── */
+.ok        { color: var(--azul-ok); font-weight: 700; }
+.error-val { color: var(--rojo);    font-weight: 700; }
+.error-msg { color: var(--rojo);    font-weight: 600; font-size: .88rem; }
+
+/* ══════════════════════════════════════════════════════════════
+   ZONA DE PRUEBA
+   ══════════════════════════════════════════════════════════════ */
+.hint-prueba {
+  font-size: .84rem;
+  color: #475569;
+  margin-bottom: .55rem;
+  line-height: 1.4;
+}
+.grupo-entradas {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-bottom: .6rem;
+}
+.campo-entrada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+}
+.campo-entrada label { font-size: .8rem; font-weight: 600; color: #475569; }
+.campo-entrada input {
+  width: 90px;
+  padding: .38rem .5rem;
+  border: 1px solid var(--gris2);
+  border-radius: 5px;
+  font-size: .9rem;
+  text-align: center;
+}
+.campo-entrada input:focus {
+  outline: 2px solid var(--azul);
+  border-color: var(--azul);
+}
+.grupo-botones-prueba {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .6rem;
+}
+.grupo-botones-prueba button { width: auto; }
+
+/* Tabla del resultado de la prueba */
+.tabla-prueba-resultado {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .87rem;
+  margin-top: .4rem;
+}
+.tabla-prueba-resultado th, .tabla-prueba-resultado td {
+  border: 1px solid var(--gris1);
+  padding: 4px 10px;
+}
+.tabla-prueba-resultado th { background: #e8eef7; text-align: left; }
+.tabla-prueba-resultado td:last-child { font-family: 'Courier New', monospace; }
+
+/* Nota de caso borde en la zona de prueba */
+.nota-caso-borde {
+  background: #fef9c3;
+  border-left: 3px solid var(--naranja);
+  border-radius: 5px;
+  padding: .45rem .7rem;
+  font-size: .86rem;
+  color: #92400e;
+  margin-bottom: .5rem;
+  line-height: 1.45;
+}
+
+/* ── Scrollbar col-der ───────────────────────────────────────── */
+.col-der::-webkit-scrollbar { width: 4px; }
+.col-der::-webkit-scrollbar-thumb { background: var(--gris2); border-radius: 3px; }
+
+/* ── Hint inicial ─────────────────────────────────────────────── */
+.hint { color: var(--gris2); font-size: .88rem; }
+
+/* ── Ocultar ─────────────────────────────────────────────────── */
+.oculto { display: none !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  main {
+    grid-template-columns: var(--ancho-izq) 1fr;
+    grid-template-areas:
+      "izq   der"
+      "centro centro";
+  }
+  .col-izq, .col-der { position: static; }
+  .col-der { flex-direction: row; flex-wrap: wrap; }
+  #panel-pasos { max-height: 55vh; }
+}
+
+@media (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas: "izq" "der" "centro";
+  }
+  .tablas-pesos { flex-direction: column; }
+  #panel-pasos  { max-height: 45vh; }
+}
+
+@media (max-width: 480px) {
+  header h1 { font-size: 1.1rem; }
+  .ecuacion  { font-size: .76rem; }
+}
